@@ -4,7 +4,7 @@ Thanks for showing enough code to reproduce your problem. You're saying:
 
 ___
 
-From this, my understanding is that the goal is to call the `DeleteLoan` command in a view model that "could be" miminally represented similar to this:
+From this, my understanding is that the goal is to call a `RelayCommand` like `DeleteLoan` in a view model that "could be" minimally represented similar to this:
 
 ~~~
 partial class MainPageViewModel : ObservableObject
@@ -69,7 +69,6 @@ Something that works for me is to give an `x:Name` to the view model in the XAML
             VerticalOptions="Center" />
 
         <CollectionView
-            x:Name="loansCollectionView"
             ItemsSource="{Binding Loans}"
             ItemTemplate="{StaticResource LoanItemTemplate}"
             Margin="20">

@@ -68,7 +68,6 @@
             VerticalOptions="Center" />
 
         <CollectionView
-            x:Name="loansCollectionView"
             ItemsSource="{Binding Loans}"
             ItemTemplate="{StaticResource LoanItemTemplate}"
             Margin="20">
