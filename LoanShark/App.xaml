@@ -1,0 +1,99 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:LoanShark"
+             x:Class="LoanShark.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="LoanItemTemplate">
+                <SwipeView>
+                    <SwipeView.LeftItems>
+                        <SwipeItems>
+                            <SwipeItem 
+                                Text="Edit"
+                                BackgroundColor="LightGray"/>
+                            <SwipeItem 
+                                Text="Delete"
+                                BackgroundColor="LightPink"  
+                                Command="{Binding BindingContext.DeleteLoanCommand, 
+                                                  Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                CommandParameter="{Binding .}" />
+                        </SwipeItems>
+                    </SwipeView.LeftItems>
+                    <Frame
+                        Padding="15"
+                        Margin="10"
+                        CornerRadius="10"
+                        BackgroundColor="White"
+                        HasShadow="True">
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label 
+                                Text="{Binding Name}"
+                                FontSize="18"
+                                FontAttributes="Bold"
+                                TextColor="Black" />
+
+                            <Label 
+                                Text="{Binding Borrower.FullName}"
+                                FontSize="14"
+                                TextColor="Gray" />
+
+                            <HorizontalStackLayout>
+                                <Label 
+                                    Text="Original: "
+                                    FontSize="12"
+                                    TextColor="DarkGray"/>
+                                <Label 
+                                    Text="{Binding OriginalLoanAmount, StringFormat='{0:C}'}"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    TextColor="Black"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout>
+                                <Label 
+                                    Text="Remaining: "
+                                    FontSize="12"
+                                    TextColor="DarkGray"/>
+                                <Label 
+                                    Text="{Binding RemainingLoanAmount, StringFormat='{0:C}'}"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    TextColor="Red"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout>
+                                <Label 
+                                    Text="Interest: "
+                                    FontSize="12"
+                                    TextColor="DarkGray"/>
+                                <Label 
+                                    Text="{Binding Interest, StringFormat='{0:P}'}"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    TextColor="Black"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout>
+                                <Label 
+                                    Text="End Date: "
+                                    FontSize="12"
+                                    TextColor="DarkGray"/>
+                                <Label 
+                                    Text="{Binding LoanEndDate, StringFormat='{0:MM/dd/yyyy}'}"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    TextColor="Black"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </SwipeView>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

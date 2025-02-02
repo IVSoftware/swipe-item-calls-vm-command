@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:LoanShark"
+    xmlns:model="clr-namespace:LoanShark.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="LoanShark.MainPage">
+    <ContentPage.BindingContext>
+        <local:MainPageViewModel x:Name="MainPageViewModel"/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:IsZeroConverter x:Key="IsZeroConverter"/>
+            <DataTemplate x:Key="LoanItemTemplate">
+                <SwipeView>
+                    <SwipeView.LeftItems>
+                        <SwipeItems>
+                            <SwipeItem 
+                                Text="Edit"
+                                BackgroundColor="LightGray"/>
+                            <SwipeItem 
+                                Text="Delete"
+                                BackgroundColor="LightPink"  
+                                Command="{Binding DeleteLoanCommand, 
+                                                  Source={x:Reference MainPageViewModel}}"
+                                CommandParameter="{Binding .}" />
+                        </SwipeItems>
+                    </SwipeView.LeftItems>
+                    <Frame
+                        Padding="15"
+                        Margin="10"
+                        CornerRadius="10"
+                        BackgroundColor="White"
+                        HasShadow="True">
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" TextColor="Black" />
+                            <Label Text="{Binding Borrower.FullName}" FontSize="14" TextColor="Gray" />
+                            <HorizontalStackLayout>
+                                <Label Text="Original: " FontSize="12" TextColor="DarkGray"/>
+                                <Label Text="{Binding OriginalLoanAmount, StringFormat='{0:C}'}" FontSize="12" FontAttributes="Bold" TextColor="Black"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Remaining: " FontSize="12" TextColor="DarkGray"/>
+                                <Label Text="{Binding RemainingLoanAmount, StringFormat='{0:C}'}" FontSize="12" FontAttributes="Bold" TextColor="Red"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Interest: " FontSize="12" TextColor="DarkGray"/>
+                                <Label Text="{Binding Interest, StringFormat='{0:P}'}" FontSize="12" FontAttributes="Bold" TextColor="Black"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="End Date: " FontSize="12" TextColor="DarkGray"/>
+                                <Label Text="{Binding LoanEndDate, StringFormat='{0:MM/dd/yyyy}'}" FontSize="12" FontAttributes="Bold" TextColor="Black"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </SwipeView>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid>
+        <!-- Show message when Loans is empty -->
+        <Label 
+            Text="No loans found."
+            IsVisible="{Binding Loans.Count, Converter={StaticResource IsZeroConverter}}"
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
+
+        <CollectionView
+            x:Name="loansCollectionView"
+            ItemsSource="{Binding Loans}"
+            ItemTemplate="{StaticResource LoanItemTemplate}"
+            Margin="20">
+        </CollectionView>
+
+        <!-- Floating Add Button -->
+        <Button Text="+" 
+            Command="{Binding NavigateToNewLoanCommand}"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            Style="{DynamicResource FloatingActionButtonStyle}" />
+    </Grid>
+</ContentPage>
